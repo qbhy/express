@@ -10,7 +10,9 @@ Express::$http = new \GuzzleHttp\Client();
 
 2. 查询快递
 ```php
-Express::query(885744925321174309);
+$result = Express::query(885744925321174309);
+print_r($result);
+
 ```
 
 
