@@ -1,0 +1,21 @@
+{
+    "name": "96qbhy/express",
+    "description": "简单的快递查询接口。",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "96qbhy",
+            "email": "96qbhy@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Qbhy\\Express\\": "src/"
+        }
+    }
+}
