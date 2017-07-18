@@ -1,6 +1,11 @@
 # express
 简单的快递查询接口。
 
+## 安装
+```
+$ composer require 96qbhy/express:dev-master
+```
+
 ## 使用
 1. 为 Express::$http 赋值
 ```php

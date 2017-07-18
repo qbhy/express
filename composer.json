@@ -2,6 +2,11 @@
     "name": "96qbhy/express",
     "description": "简单的快递查询接口。",
     "license": "MIT",
+    "keywords": [
+        "快递",
+        "express",
+        "快递查询"
+    ],
     "authors": [
         {
             "name": "96qbhy",
@@ -11,8 +16,7 @@
     "require": {
         "guzzlehttp/guzzle": "^6.3"
     },
-    "require-dev": {
-    },
+    "require-dev": {},
     "autoload": {
         "psr-4": {
             "Qbhy\\Express\\": "src/"
