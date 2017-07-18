@@ -14,9 +14,9 @@ class Express
     static $http;
 
 
-    public static function query($postId)
+    public static function query($postId, $type = null)
     {
-        $type = self::queryType($postId);
+        $type = $type ?: self::queryType($postId);
         if (is_null($type)) {
             return "无用的快递单号: $postId 。";
         }
@@ -37,7 +37,7 @@ class Express
                 return null;
             }
         }
-        throw new Exception('请先为 Express::$http 赋值。');
+        throw new Exception('请先为 Express::$http 正确赋值。');
     }
 
 
