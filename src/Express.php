@@ -11,12 +11,17 @@ class Express
     /**
      * @var Client
      */
-    static $http;
+    static $http = null;
 
 
-    public static function query($postId, $type = null)
+    /**
+     * @param string $postId
+     * @param string $type
+     * @return mixed|string
+     */
+    public static function query($postId, $type = '')
     {
-        $type = $type ?: self::queryType($postId);
+        $type = $type === '' ? self::queryType($postId) : $type;
         if (is_null($type)) {
             return "无用的快递单号: $postId 。";
         }
@@ -29,15 +34,16 @@ class Express
 
     public static function queryType($postId)
     {
-        if (static::$http instanceof Client) {
-            $data = \GuzzleHttp\json_decode(static::$http->request('get', "http://www.kuaidi100.com/autonumber/autoComNum?text=$postId")->getBody(), true);
-            if (count($data['auto']) > 0) {
-                return $data['auto'][0]['comCode'];
-            } else {
-                return null;
-            }
+
+        if (!(static::$http instanceof Client)) {
+            static::$http = new Client();
         }
-        throw new Exception('请先为 Express::$http 正确赋值。');
+        $data = \GuzzleHttp\json_decode(static::$http->request('get', "http://www.kuaidi100.com/autonumber/autoComNum?text=$postId")->getBody(), true);
+        if (count($data['auto']) > 0) {
+            return $data['auto'][0]['comCode'];
+        } else {
+            return null;
+        }
     }
 
 
