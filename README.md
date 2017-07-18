@@ -13,6 +13,7 @@ $ composer require 96qbhy/express:dev-master
 $result = Express::query('885744925321174309');
 print_r($result);
 ```
+> 支持自动判断快递类型和手动指定快递类型，不传第二个参数代表自动判断快递类型。快递单号用字符串！！！
 
 2. 查询快递类型
 ```php

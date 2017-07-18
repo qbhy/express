@@ -15,8 +15,10 @@ class Express
 
 
     /**
-     * @param string $postId
-     * @param string $type
+     * 查快递方法
+     *
+     * @param string $postId 快递单号
+     * @param string $type 手动指定快递类型
      * @return mixed|string
      */
     public static function query($postId, $type = '')
@@ -32,9 +34,14 @@ class Express
     }
 
 
+    /**
+     * 查询快递类型方法
+     *
+     * @param string $postId 快递单号
+     * @return null|string
+     */
     public static function queryType($postId)
     {
-
         if (!(static::$http instanceof Client)) {
             static::$http = new Client();
         }
