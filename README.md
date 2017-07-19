@@ -3,7 +3,7 @@
 
 ## 安装
 ```
-$ composer require 96qbhy/express:dev-master
+$ composer require 96qbhy/express
 ```
 
 ## 使用
