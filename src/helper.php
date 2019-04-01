@@ -5,9 +5,7 @@
  * Time: 15:06
  */
 
-namespace Qbhy;
-
-use Qbhy\Express\Express;
+namespace Qbhy\Express;
 
 if (!function_exists('express')) {
     /**
