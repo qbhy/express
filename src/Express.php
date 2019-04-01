@@ -41,10 +41,12 @@ class Express
     public static function getHttp()
     {
         if (!(static::$http instanceof Client)) {
-            static::$http = new Client([
+            $chromeVersion = random_int(50, 73);
+            $osxVersion    = random_int(8, 13);
+            static::$http  = new Client([
                 RequestOptions::HEADERS => [
                     'Referer'         => 'https://www.kuaidi100.com/',
-                    'User-Agent'      => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+                    'User-Agent'      => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_{$osxVersion}_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{$chromeVersion}.0.3683.86 Safari/537.36",
                     'Accept-Language' => 'zh,zh-CN;q=0.9,en;q=0.8',
                     'Accept-Encoding' => 'gzip, deflate, br',
                     'Connection'      => 'keep-alive',
