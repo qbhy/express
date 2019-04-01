@@ -20,14 +20,14 @@ class Express
      * @param string $postId 快递单号
      * @param string $type   手动指定快递类型
      *
-     * @throws
-     * @return mixed|string
+     * @throws ExpressException
+     * @return array
      */
     public static function query($postId, $type = '', $phone = '')
     {
         $type = $type === '' ? self::queryType($postId) : $type;
         if (is_null($type)) {
-            return "无用的快递单号: $postId 。";
+            throw new ExpressException("无用的快递单号: {$postId} 。");
         }
 
         $url  = "https://www.kuaidi100.com/query?type={$type}&postid={$postId}&id=1&valicode=&temp=0.625568512055451&phone={$phone}";
@@ -59,7 +59,7 @@ class Express
      *
      * @param string $postId 快递单号
      *
-     * @throws
+     * @throws ExpressException
      * @return null|string
      */
     public static function queryType($postId)

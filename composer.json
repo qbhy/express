@@ -20,6 +20,9 @@
     "autoload": {
         "psr-4": {
             "Qbhy\\Express\\": "src/"
-        }
+        },
+        "files": [
+            "src/helper.php"
+        ]
     }
 }
