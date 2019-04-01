@@ -2,5 +2,5 @@
 
 require 'vendor/autoload.php';
 
-$result = \Qbhy\express('3703490909312');
+$result = \Qbhy\express('xxx');
 print_r($result);
