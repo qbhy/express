@@ -3,7 +3,7 @@
 namespace Qbhy\Express;
 
 use GuzzleHttp\Client;
-use Exception;
+use GuzzleHttp\RequestOptions;
 
 class Express
 {
@@ -18,34 +18,53 @@ class Express
      * 查快递方法
      *
      * @param string $postId 快递单号
-     * @param string $type 手动指定快递类型
+     * @param string $type   手动指定快递类型
+     *
+     * @throws
      * @return mixed|string
      */
-    public static function query($postId, $type = '')
+    public static function query($postId, $type = '', $phone = '')
     {
         $type = $type === '' ? self::queryType($postId) : $type;
         if (is_null($type)) {
             return "无用的快递单号: $postId 。";
         }
-        $url = "http://www.kuaidi.com/index-ajaxselectcourierinfo-$postId-$type.html";
-//        $url = "https://www.kuaidi100.com/query?type=$type&postid=$postId&id=1&valicode=&temp=0.005566359421234068";
-        $data = static::$http->request('get', $url)->getBody();
+
+        $url  = "https://www.kuaidi100.com/query?type={$type}&postid={$postId}&id=1&valicode=&temp=0.625568512055451&phone={$phone}";
+        $data = static::getHttp()->request('GET', $url)->getBody();
         return \GuzzleHttp\json_decode($data, true);
     }
 
+    /**
+     * @return Client
+     */
+    public static function getHttp()
+    {
+        if (!(static::$http instanceof Client)) {
+            static::$http = new Client([
+                RequestOptions::HEADERS => [
+                    'Referer'         => 'https://www.kuaidi100.com/',
+                    'User-Agent'      => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
+                    'Accept-Language' => 'zh,zh-CN;q=0.9,en;q=0.8',
+                    'Accept-Encoding' => 'gzip, deflate, br',
+                    'Connection'      => 'keep-alive',
+                ]
+            ]);
+        }
+        return self::$http;
+    }
 
     /**
      * 查询快递类型方法
      *
      * @param string $postId 快递单号
+     *
+     * @throws
      * @return null|string
      */
     public static function queryType($postId)
     {
-        if (!(static::$http instanceof Client)) {
-            static::$http = new Client();
-        }
-        $data = \GuzzleHttp\json_decode(static::$http->request('get', "http://www.kuaidi100.com/autonumber/autoComNum?text=$postId")->getBody(), true);
+        $data = \GuzzleHttp\json_decode(static::getHttp()->request('get', "http://www.kuaidi100.com/autonumber/autoComNum?text=$postId")->getBody(), true);
         if (count($data['auto']) > 0) {
             return $data['auto'][0]['comCode'];
         } else {
