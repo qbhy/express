@@ -7,6 +7,12 @@ use GuzzleHttp\RequestOptions;
 
 class Express
 {
+    private $secret;
+
+    public function __construct($secret)
+    {
+        $this->secret = $secret;
+    }
 
     /**
      * @var Client
@@ -20,18 +26,13 @@ class Express
      * @param string $postId 快递单号
      * @param string $type   手动指定快递类型
      *
-     * @throws ExpressException
      * @return array
      */
-    public static function query($postId, $type = '', $phone = '')
+    public function query($postId, $type = 'auto')
     {
-        $type = $type === '' ? self::queryType($postId) : $type;
-        if (is_null($type)) {
-            throw new ExpressException("无用的快递单号: {$postId} 。");
-        }
-        $url  = "https://www.kuaidi100.com/query?type={$type}&postid={$postId}&temp=0.7003049469916303&phone={$phone}";
-        $data = static::getHttp()->request('GET', $url)->getBody();
-        return \GuzzleHttp\json_decode($data, true);
+        $url  = "http://q.kdpt.net/api?id={$this->secret}&com={$type}&nu={$postId}&show=json";
+        $data = $this::getHttp()->request('GET', $url)->getBody();
+        return @\GuzzleHttp\json_decode($data, true);
     }
 
     /**`
@@ -40,7 +41,7 @@ class Express
     public static function getHttp()
     {
         if (!(static::$http instanceof Client)) {
-            $agents       = [
+            $agents = [
                 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.163 Safari/535.1',
                 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:6.0) Gecko/20100101 Firefox/6.0',
                 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50',
@@ -69,7 +70,7 @@ class Express
                     'Connection'       => 'keep-alive',
                     'X-Requested-With' => 'XMLHttpRequest',
                     'Host'             => 'www.kuaidi100.com',
-//                    'x-forword-for'    => $fakeIp,
+                    //                    'x-forword-for'    => $fakeIp,
                     'Cookie'           => 'Hm_lvt_22ea01af58ba2be0fec7c11b25e88e6c=1554091249,1554099878; WWWID=WWW095E883265EF9D8F762C82F669FCF6EB; Hm_lpvt_22ea01af58ba2be0fec7c11b25e88e6c=1554107822'
                 ],
             ]);
