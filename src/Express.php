@@ -32,7 +32,7 @@ class Express
     {
         $url  = "http://q.kdpt.net/api?id={$this->secret}&com={$type}&nu={$postId}&show=json";
         $data = $this::getHttp()->request('GET', $url)->getBody();
-        return @\GuzzleHttp\json_decode($data, true);
+        return @json_decode($data, true);
     }
 
     /**`
@@ -86,7 +86,7 @@ class Express
      */
     public static function queryType($postId)
     {
-        $data = \GuzzleHttp\json_decode(static::getHttp()->request('get', "http://www.kuaidi100.com/autonumber/autoComNum?text={$postId}")->getBody(), true);
+        $data = json_decode(static::getHttp()->request('get', "http://www.kuaidi100.com/autonumber/autoComNum?text={$postId}")->getBody(), true);
         if (count($data['auto']) > 0) {
             return $data['auto'][0]['comCode'];
         } else {
